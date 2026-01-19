@@ -1,17 +1,15 @@
-# This is a sample Python script.
+import cv2
+import pyvirtualcam
+from pyvirtualcam import  PixelFormat
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+# Load an image
+image = cv2.imread('\\images\\TestPic.png')
+image = cv2.resize(image,(640,480))
 
+# Open virtrual camera
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-    print(f'test')
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+with    pyvirtualcam.camera(width=640, height=480, fps=30, fmt=PixelFormat.BGR) as cam:
+    print(f'Virtual camera device: {cam.device3}')
+    while True:
+        cam.send(image)
+        cam.sleep_until_next_frame()
